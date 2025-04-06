@@ -1,5 +1,7 @@
 import { Button, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-gray-200 px-4">
       <div className="bg-white px-6  py-10 w-full max-w-md rounded shadow-md">
@@ -9,7 +11,9 @@ const LoginPage = () => {
 
         <Form
           initialValues={{ remember: true }}
-          onFinish={() => {}}
+          onFinish={() => {
+            navigate("/Dashboard");
+          }}
           onFinishFailed={() => {}}
           autoComplete="off"
           layout="vertical"
@@ -40,7 +44,7 @@ const LoginPage = () => {
         <div className="pt-4 text-center text-sm">
           <span>
             Don't have an account?{" "}
-            <a href="#" className="text-blue-500 hover:underline">
+            <a href="/register" className="text-blue-500 hover:underline">
               Register
             </a>
           </span>

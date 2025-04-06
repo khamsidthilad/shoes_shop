@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import SidebarTemplate from "./SidebarThemplate";
 import { MENU } from "../../config/nav";
@@ -13,6 +13,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -111,7 +112,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         </nav>
       </div>
       <div className="px-4 py-4 mt-auto mb-6">
-        <button className="flex items-center w-full px-4 py-2 text-white hover:bg-blue-600 rounded-md">
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="flex items-center w-full px-4 py-2 text-white hover:bg-blue-600 rounded-md"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 mr-2"
