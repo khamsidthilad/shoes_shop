@@ -17,6 +17,11 @@ export const MENU = (t: any): Array<IMenu> => [
         icon: "",
       },
       {
+        name: "category product",
+        path: "/product/category",
+        icon: "",
+      },
+      {
         name: "supplier product",
         path: "/product/supplier",
         icon: "",

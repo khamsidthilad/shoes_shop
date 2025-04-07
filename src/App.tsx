@@ -61,3 +61,29 @@ function AuthRoute({ children }: { children: React.ReactNode }) {
 }
 
 export default App;
+
+
+// function AuthRoute({ children }: { children: React.ReactNode }) {
+//   const navigate = useNavigate();
+//   const token = localStorage.getItem(TOKEN_KEY);
+//   const { pathname } = useLocation();
+//   const isAuthPage = pathname === "/login" || pathname === "/register";
+
+//   useEffect(() => {
+//     If trying to access login/register while logged in, redirect to appropriate page
+//     if (token && isAuthPage) {
+//       You would need a function to decode the token or get user data
+//       const userData = getUserDataFromToken(token);
+//       navigate(userData.role === 'admin' ? "/Dashboard" : "/");
+//     }
+//   }, [token, pathname, navigate]);
+
+//   return children;
+// }
+
+// Helper function to get user data from token (implement this)
+// function getUserDataFromToken(token) {
+//   This is pseudocode - implement your actual token decoding
+//   You might use JWT decode or similar
+//   return { role: 'admin' }; // Replace with actual implementation
+// }

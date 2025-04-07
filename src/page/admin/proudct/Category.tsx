@@ -54,9 +54,7 @@ const CategoryPage: React.FC = () => {
       <Table
         className="bg-white rounded-lg"
         title={() => {
-          return (console.log("CategoryPage component rendered");
-console.log("Mock data:", mockData);
-console.log("Columns:", columns);
+          return (
             <div className="flex justify-between">
               <div> Creategory</div>
               <Button
