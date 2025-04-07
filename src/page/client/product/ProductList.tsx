@@ -1,35 +1,46 @@
-import { Button } from "antd";
+import { Button, Menu } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
-import CarouselComponent from "./component/carousel";
+import CarouselComponent from "./component/Carousel";
 
 const ProductClientPage: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Header
-        children={
-          <div className="flex h-full">
-            <h1 className="text-white">home</h1>
-            <div className="flex justify-end items-center gap-2 w-full ">
-              <Button
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate("/register");
-                }}
-              >
-                Register
-              </Button>
-            </div>
-          </div>
-        }
-      />
+        <Header className="flex items-center justify-between">
+        {/* Logo / Brand */}
+        <div className="text-white text-xl font-bold">Miler</div>
+
+        {/* Navbar Menu */}
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          // defaultSelectedKeys={["home"]}
+          items={[
+            {
+              key: "home",
+              label: "Home",
+              onClick: () => navigate("/"),
+            },
+            {
+              key: "products",
+              label: "Products",
+              onClick: () => navigate("/product"),
+            },
+            {
+              key: "cart",
+              label: "cart",
+              onClick: () => navigate("/Cart"),
+            },
+          ]}
+        />
+
+        {/* Buttons */}
+        <div className="flex gap-2">
+          <Button onClick={() => navigate("/login")}>Login</Button>
+          <Button onClick={() => navigate("/register")}>Register</Button>
+        </div>
+      </Header>
       <CarouselComponent
         images={[
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfsKcLtcDvagrqCxPXwH7LG9Nddg1K83l6tQ&s",
