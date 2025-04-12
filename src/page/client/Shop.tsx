@@ -2,7 +2,7 @@
 const Shop = () => {
   return (
     <div>
-      dfd
+      kk
     </div>
   )
 }
