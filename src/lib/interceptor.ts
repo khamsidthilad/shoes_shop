@@ -10,8 +10,8 @@ import configs from "../config/configs";
 
 export const TOKEN_KEY = `${config.APP_NAME}_TOKEN`;
 
-const api = axios.create({
-  baseURL: `${config.ENDPOINT_API}`,
+export const api = axios.create({
+  baseURL: `${config.ENDPOINT_API}/api`,
   withCredentials: true,
   timeout: 30000,
 });

@@ -3,7 +3,7 @@ import { IMenu } from "../types/route.type";
 export const MENU = (t: any): Array<IMenu> => [
   {
     name: t("Dashboard"),
-    path: "/",
+    path: "/dashboard",
     icon: "",
   },
   {
@@ -14,6 +14,11 @@ export const MENU = (t: any): Array<IMenu> => [
       {
         name: "product all",
         path: "/product/all",
+        icon: "",
+      },
+      {
+        name: "category product",
+        path: "/product/category",
         icon: "",
       },
       {
