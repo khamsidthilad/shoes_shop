@@ -3,7 +3,7 @@ import { IMenu } from "../types/route.type";
 export const MENU = (t: any): Array<IMenu> => [
   {
     name: t("Dashboard"),
-    path: "/",
+    path: "/dashboard",
     icon: "",
   },
   {

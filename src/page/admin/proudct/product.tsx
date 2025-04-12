@@ -1,35 +1,32 @@
-import { Button, Divider, Modal, Table } from "antd";
-import { getCategoryHeader } from "./column/header";
-import { ICategory, ICategoryItem } from "../../../types/admin/product/product";
+import { Table, Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
+import { getAllProductHeader } from "./column/header";
 import { useEffect, useState } from "react";
-import category from "../../../api/category";
+import product from "../../../api/product";
+import { IProductItem } from "../../../types/admin/product/product";
 
-const CategoryPage: React.FC = () => {
+const ProductPage: React.FC = () => {
   const navigate = useNavigate();
-  const [getAllCategory, setGetAllCategory] = useState<ICategory[]>([]);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
-  );
+  const [getAllProduct, setGetAllProduct] = useState<IProductItem[]>([]);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [isOpenModal, setIsSelectModal] = useState(false);
-
-  const fectData = async () => {
-    try {
-      const res = await category.getCategory();
-      setGetAllCategory(res.data);
-      return res;
-    } catch (error) {
-      throw error;
-    }
+  const handleEdit = () => {
+    navigate("/product/create");
   };
 
+  const fectData = async () => {
+    const res = await product.getProduct();
+    setGetAllProduct(res.data);
+    setSelectedProductId(res.data.id);
+    return res;
+  };
   useEffect(() => {
     fectData();
   }, []);
 
   const onDelete = async (id: string) => {
     try {
-      const res = await category.deleteCategory(id);
+      const res = await product.deleteProduct(id);
       fectData();
       return res;
     } catch (error) {
@@ -37,16 +34,11 @@ const CategoryPage: React.FC = () => {
     }
   };
 
-  const handleEdit = () => {
-    navigate("/product/create/category");
-  };
-
-  const handleDelete = (record: ICategory) => {
-    setSelectedProductId(record.cate_id.toString());
+  const handleDelete = (record: IProductItem) => {
+    setSelectedProductId(record.pro_id.toString());
     setIsSelectModal(true);
   };
-
-  const columns = getCategoryHeader(handleEdit, handleDelete);
+  const columns = getAllProductHeader(handleEdit, handleDelete);
   return (
     <div className="">
       <Table
@@ -54,22 +46,21 @@ const CategoryPage: React.FC = () => {
         title={() => {
           return (
             <div className="flex justify-between">
-              <div> Creategory</div>
+              <div className="font-bold text-xl">Product</div>
               <Button
                 onClick={() => {
-                  navigate("/product/create/category");
+                  navigate("/product/create");
                 }}
                 type="primary"
               >
-                Create category
+                Create product
               </Button>
             </div>
           );
         }}
         columns={columns}
-        dataSource={getAllCategory}
-        pagination={{ pageSize: 4 }}
-        scroll={{ y: 55 * 5 }}
+        dataSource={getAllProduct}
+        pagination={{ pageSize: 10 }}
       />
       <Modal
         title="Do you want to delete Product?"
@@ -89,4 +80,4 @@ const CategoryPage: React.FC = () => {
   );
 };
 
-export default CategoryPage;
+export default ProductPage;

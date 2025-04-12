@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import SidebarTemplate from "./SidebarThemplate";
 import { MENU } from "../../config/nav";
 import { AppImage } from "../../config/constant";
+import { TOKEN_KEY } from "../../lib/interceptor";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -114,7 +115,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="px-4 py-4 mt-auto mb-6">
         <button
           onClick={() => {
-            navigate("/login");
+            console.log("TOKEN: ADMIN :", TOKEN_KEY);
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem("user");
+            navigate("/");
           }}
           className="flex items-center w-full px-4 py-2 text-white hover:bg-blue-600 rounded-md"
         >

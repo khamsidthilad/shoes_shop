@@ -1,7 +1,32 @@
 import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import { ILogin } from "../../types/admin/auth";
+import auth from "../../api/auth";
+import { TOKEN_KEY } from "../../lib/interceptor";
 const LoginPage = () => {
   const navigate = useNavigate();
+  const onSubmit = async (data: ILogin) => {
+    try {
+      const response: any = await auth.login(data);
+
+      if (response && response.success) {
+        localStorage.setItem(TOKEN_KEY, response.token);
+        localStorage.setItem("USER_ROLE", response.user.role);
+
+        const userRole = response.user.role;
+
+        if (userRole === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/");
+        }
+      } else {
+        console.log("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-gray-200 px-4">
       <div className="bg-white px-6  py-10 w-full max-w-md rounded shadow-md">
@@ -11,9 +36,7 @@ const LoginPage = () => {
 
         <Form
           initialValues={{ remember: true }}
-          onFinish={() => {
-            navigate("/Dashboard");
-          }}
+          onFinish={onSubmit}
           onFinishFailed={() => {}}
           autoComplete="off"
           layout="vertical"
