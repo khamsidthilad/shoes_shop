@@ -1,4 +1,3 @@
-import { InboxOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message, Select } from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import React, { useEffect, useState } from "react";
@@ -8,11 +7,37 @@ import {
   ICreateProduct,
 } from "../../../../types/admin/product/product";
 import category from "../../../../api/category";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CreateProduct: React.FC = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
+  const navigate = useNavigate();
   const [categoryProduct, setCategoryProduct] = useState<ICategory[]>([]);
+  const param = useParams();
+  const id = param.id;
+  const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      setIsEdit(true);
+      const fetchProduct = async () => {
+        try {
+          const res = await product.getProductById(id);
+          form.setFieldsValue({
+            pro_name: res.data.pro_name,
+            pro_detail: res.data.pro_detail,
+            pro_qty: res.data.pro_qty,
+            pro_price: res.data.pro_price,
+            cate_id: res.data.cate_id,
+          });
+        } catch (error) {
+          console.error("Error fetching supplier data", error);
+        }
+      };
+      fetchProduct();
+    }
+  }, [id, form]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -22,19 +47,27 @@ const CreateProduct: React.FC = () => {
     fetchCategories();
   }, []);
 
-  const handleOnCreate = async (data: ICreateProduct) => {
+  const handleOnCreate = async (data: any) => {
     try {
       const formData = new FormData();
       formData.append("pro_name", data.pro_name);
       formData.append("pro_detail", data.pro_detail);
       formData.append("pro_qty", data.pro_qty);
+      formData.append("pro_price", data.pro_price);
       formData.append("cate_id", data.cate_id);
       formData.append("image", data.image);
 
-      const response = product.createProduct(formData);
-      message.success("Product created successfully!");
-      form.resetFields();
-      return response;
+      if (isEdit && id) {
+        const response = product.updateProduct(formData, id);
+        message.success("Product created successfully!");
+        navigate(-1);
+        return response;
+      } else {
+        const response = product.createProduct(formData);
+        message.success("Product created successfully!");
+        navigate(-1);
+        return response;
+      }
     } catch (error) {
       throw error;
     }
@@ -64,6 +97,7 @@ const CreateProduct: React.FC = () => {
   return (
     <div className=" bg-white">
       <div className="p-6">
+        <h1>{isEdit ? "Edit Product" : "Product"}</h1>
         <Form
           form={form}
           onFinish={handleOnCreate}
@@ -109,25 +143,18 @@ const CreateProduct: React.FC = () => {
               label="Image"
               name="image"
               valuePropName="fileList"
-              getValueFromEvent={() => fileList}
-              rules={[{ required: true, message: "Please upload an image!" }]}
+              getValueFromEvent={(e) => {
+                if (e.target && e.target.files) {
+                  return e.target.files[0];
+                }
+              }}
             >
-              <Dragger {...uploadProps}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single upload. Please upload an image file.
-                </p>
-              </Dragger>
+              <Input type="file" />
             </Form.Item>
           </div>
           <div className="flex justify-end">
             <Button type="primary" htmlType="submit">
-              create
+              {isEdit ? "Update" : "Create"}
             </Button>
           </div>
         </Form>

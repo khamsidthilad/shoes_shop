@@ -4,14 +4,18 @@ import { getAllProductHeader } from "./column/header";
 import { useEffect, useState } from "react";
 import product from "../../../api/product";
 import { IProductItem } from "../../../types/admin/product/product";
+import { useTranslation } from "react-i18next";
 
 const ProductPage: React.FC = () => {
   const navigate = useNavigate();
   const [getAllProduct, setGetAllProduct] = useState<IProductItem[]>([]);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
   const [isOpenModal, setIsSelectModal] = useState(false);
-  const handleEdit = () => {
-    navigate("/product/create");
+  const { t } = useTranslation();
+  const handleEdit = (id: number) => {
+    navigate(`/product/edit/${id}`);
   };
 
   const fectData = async () => {
@@ -40,13 +44,15 @@ const ProductPage: React.FC = () => {
   };
   const columns = getAllProductHeader(handleEdit, handleDelete);
   return (
-    <div className="">
+    <div>
       <Table
         className="bg-white rounded-lg"
         title={() => {
           return (
             <div className="flex justify-between">
-              <div className="font-bold text-xl">Product</div>
+              <div className="font-bold text-xl">
+                {t("product.title_product")}
+              </div>
               <Button
                 onClick={() => {
                   navigate("/product/create");
