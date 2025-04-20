@@ -6,9 +6,10 @@ import {
 } from "../../../../types/admin/product/product";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Image } from "antd";
+import { ISupplier } from "../../../../types/admin/supplier";
 
 export const getCategoryHeader = (
-  onEdit: (record: ICategory) => void,
+  onEdit: (id: number) => void,
   onDelete: (record: ICategory) => void
 ): ColumnsType<ICategory> => [
   {
@@ -34,7 +35,7 @@ export const getCategoryHeader = (
       <div style={{ display: "flex", gap: 8 }}>
         <EditOutlined
           style={{ color: "blue" }}
-          onClick={() => onEdit(record)}
+          onClick={() => onEdit(record.cate_id)}
         />
         <DeleteOutlined
           style={{ color: "red" }}
@@ -46,7 +47,7 @@ export const getCategoryHeader = (
 ];
 
 export const getAllProductHeader = (
-  onEdit: (record: IProductItem) => void,
+  onEdit: (id:number) => void,
   onDelete: (record: IProductItem) => void
 ): ColumnsType<IProductItem> => [
   {
@@ -54,13 +55,11 @@ export const getAllProductHeader = (
     key: "id",
     render: (_: any, __: any, index: number) => index + 1,
   },
-
   {
     title: "Image",
-    dataIndex: "pro_image",
     key: "pro_image",
-    render: (url: string | null) => {
-      console.log("Image URL:", url);
+    render: (_: any, record: any) => {
+      const url = record.pro_image;
       return (
         <Image
           src={url ? url : "/src/assets/country/english.jpg"}
@@ -85,6 +84,11 @@ export const getAllProductHeader = (
     key: "pro_detail",
   },
   {
+    title: "Price",
+    dataIndex: "pro_price",
+    key: "pro_price",
+  },
+  {
     title: "Quantity",
     dataIndex: "pro_qty",
     key: "pro_qty",
@@ -96,7 +100,50 @@ export const getAllProductHeader = (
       <div style={{ display: "flex", gap: 8 }}>
         <EditOutlined
           style={{ color: "blue" }}
-          onClick={() => onEdit(record)}
+          onClick={() => onEdit(record.pro_id)}
+        />
+        <DeleteOutlined
+          style={{ color: "red" }}
+          onClick={() => onDelete(record)}
+        />
+      </div>
+    ),
+  },
+];
+
+export const getSupplierHeader = (
+  onEdit: (id: string) => void,
+  onDelete: (record: ISupplier) => void
+): ColumnsType<ISupplier> => [
+  {
+    title: "ID",
+    dataIndex: "supplier_id",
+    key: "supplier_id",
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Contract",
+    dataIndex: "contact_info",
+    key: "contact_info",
+  },
+  {
+    title: "Address",
+    dataIndex: "adresses",
+    key: "adresses",
+  },
+
+  {
+    title: "Action",
+    key: "action",
+    render: (_: unknown, record: ISupplier) => (
+      <div style={{ display: "flex", gap: 8 }}>
+        <EditOutlined
+          style={{ color: "blue" }}
+          onClick={() => onEdit(record.supplier_id.toString())}
         />
         <DeleteOutlined
           style={{ color: "red" }}

@@ -28,4 +28,14 @@ export const MENU = (t: any): Array<IMenu> => [
       },
     ],
   },
+  {
+    name: t("OrderStatus"),
+    path: "/order/status",
+    icon: "",
+  },
+  {
+    name: t("History"),
+    path: "/history",
+    icon: "",
+  },
 ];

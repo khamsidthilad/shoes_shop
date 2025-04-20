@@ -1,5 +1,3 @@
-import { Button } from "antd";
-import { Header } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
 import CarouselComponent from "./component/Carousel";
 

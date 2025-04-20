@@ -1,3 +1,6 @@
 {
-    "login": "Login"
+    "login": "Login",
+    "product": {
+        "title_product": "Product"
+    }
 }

@@ -17,6 +17,23 @@ const RegisterPage: React.FC = () => {
         >
           <Form.Item
             label="User name"
+            name="name"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input className="w-full" size="large" />
+          </Form.Item>
+          <Form.Item
+            label="Sur name"
+            name="sname"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input className="w-full" size="large" />
+          </Form.Item>
+          <Form.Item label="Date of birth" name="dateOfBirth">
+            <Input className="w-full" size="large" type="date" />
+          </Form.Item>
+          <Form.Item
+            label="User name"
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
@@ -29,6 +46,23 @@ const RegisterPage: React.FC = () => {
             rules={[{ required: true, message: "Please input your password!" }]}
           >
             <Input.Password className="w-full" size="large" />
+          </Form.Item>
+          <Form.Item
+            label="Telephone"
+            name="tel"
+            rules={[
+              { required: true, message: "Please input your Phone number" },
+            ]}
+          >
+            <Input className="w-full" size="large" />
+          </Form.Item>
+
+          <Form.Item
+            label="Address"
+            name="address"
+            rules={[{ required: true, message: "Please input your Address" }]}
+          >
+            <Input className="w-full" size="large" />
           </Form.Item>
 
           <Form.Item>

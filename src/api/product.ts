@@ -8,8 +8,11 @@ export default {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     api.post(`/products`, formdata, config);
   },
-  updateProduct: (payload: string, id: string) =>
-    api.put(`/products/${id}`, payload),
+  updateProduct: (formdata: FormData, id: string) => {
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    api.put(`/products/${id}`, formdata, config);
+  },
+
   getProductByCategory: (id: string) => api.get(`/products/category/${id}`),
   getProductById: (id: string) => api.get(`/products/${id}`),
   getSearch: (id: string) => api.get(`/products/search/${id}`),

@@ -37,8 +37,8 @@ const CategoryPage: React.FC = () => {
     }
   };
 
-  const handleEdit = () => {
-    navigate("/product/create/category");
+  const handleEdit = (id:number) => {
+    navigate(`/product/edit/category/${id}`);
   };
 
   const handleDelete = (record: ICategory) => {
@@ -54,7 +54,7 @@ const CategoryPage: React.FC = () => {
         title={() => {
           return (
             <div className="flex justify-between">
-              <div> Creategory</div>
+              <div className="font-bold text-xl"> Creategory</div>
               <Button
                 onClick={() => {
                   navigate("/product/create/category");
