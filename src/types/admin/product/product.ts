@@ -20,6 +20,7 @@ export interface IProductItem {
   pro_image: string;
   cate_id: number;
   gen_id: number;
+  pro_price: number;
   category: ICategory;
 }
 

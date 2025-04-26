@@ -15,13 +15,13 @@ const ClientLayout: React.FC<{ children?: ReactNode }> = ({ children }) => {
               sidebarOpen={sidebarOpen}
               setSidebarOpen={setSidebarOpen}
               isClient
-              menuBarClient={AUTH_ROUTES.filter(
-                (item) => item.path !== "/login" && item.path !== "/register"
-              ).map((item) => ({
-                key: item.path,
-                label: item.title,
-                onClick: () => navigate(item.path),
-              }))}
+              menuBarClient={AUTH_ROUTES.filter((item) => item.showInMenu).map(
+                (item) => ({
+                  key: item.path,
+                  label: item.title,
+                  onClick: () => navigate(item.path),
+                })
+              )}
             />
             <main>
               <div className="relative mx-auto max-w-screen-3xl ">
