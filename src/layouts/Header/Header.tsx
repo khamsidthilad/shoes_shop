@@ -24,6 +24,9 @@ const Header = (props: {
     {
       key: "1",
       label: "My Account",
+      onClick: () => {
+        navigate("/change-password");
+      },
     },
   ];
 

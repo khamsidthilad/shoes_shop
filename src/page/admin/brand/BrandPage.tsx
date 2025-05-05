@@ -5,6 +5,7 @@ import { Button, Input, Modal, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import { getAllBrandHeader } from "./column/Column";
 import { SearchOutlined } from "@ant-design/icons";
+import { ShoesSize } from "../../../constant/status";
 
 const BrandPage: React.FC = () => {
   const [getBrand, setGetBrand] = useState<IGetListBrand[]>([]);
@@ -44,8 +45,10 @@ const BrandPage: React.FC = () => {
     const filtered = getBrand.filter(
       (item) =>
         item.brand_name.toLowerCase().includes(value.toLowerCase()) ||
-        (item.brand_description?.toLowerCase().includes(value.toLowerCase()) || false) ||
-        (item.brand_website?.toLowerCase().includes(value.toLowerCase()) || false)
+        item.brand_description?.toLowerCase().includes(value.toLowerCase()) ||
+        false ||
+        item.brand_website?.toLowerCase().includes(value.toLowerCase()) ||
+        false
     );
 
     setFilteredData(filtered);
@@ -54,7 +57,7 @@ const BrandPage: React.FC = () => {
   const onDelete = async (id: string) => {
     try {
       await brand.deleteBrand(id);
-      fetchBrandData(); 
+      fetchBrandData();
     } catch (error) {
       console.error("Error deleting brand:", error);
     }
@@ -104,9 +107,8 @@ const BrandPage: React.FC = () => {
         columns={columns}
         dataSource={filteredData}
         pagination={{ pageSize: 10 }}
-        rowKey="brand_id" 
+        rowKey="brand_id"
       />
-      
       <Modal
         title="Do you want to delete Brand?"
         centered
