@@ -31,6 +31,8 @@ export interface ICreateProduct {
   pro_qty: string;
   image: string;
   cate_id: ICategoryItem;
+  brand_id:IGetListBrand;
+  pro_price:number;
 }
 
 export interface IGetListBrand {

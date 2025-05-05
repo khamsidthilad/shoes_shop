@@ -5,15 +5,18 @@ import product from "../../../../api/product";
 import {
   ICategory,
   ICreateProduct,
+  IGetListBrand,
 } from "../../../../types/admin/product/product";
 import category from "../../../../api/category";
 import { useNavigate, useParams } from "react-router-dom";
+import brand from "../../../../api/brand";
 
 const CreateProduct: React.FC = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<any[]>([]);
   const navigate = useNavigate();
   const [categoryProduct, setCategoryProduct] = useState<ICategory[]>([]);
+  const [brandProduct, setBrandProduct] = useState<IGetListBrand[]>([]);
   const param = useParams();
   const id = param.id;
   const [isEdit, setIsEdit] = useState(false);
@@ -30,6 +33,7 @@ const CreateProduct: React.FC = () => {
             pro_qty: res.data.pro_qty,
             pro_price: res.data.pro_price,
             cate_id: res.data.cate_id,
+            brand_id: res.data.brand_id,
           });
         } catch (error) {
           console.error("Error fetching supplier data", error);
@@ -46,6 +50,13 @@ const CreateProduct: React.FC = () => {
     };
     fetchCategories();
   }, []);
+  useEffect(() => {
+    const fetchBrand = async () => {
+      const res = await brand.getAllBrand();
+      setBrandProduct(res.data);
+    };
+    fetchBrand();
+  }, []);
 
   const handleOnCreate = async (data: any) => {
     try {
@@ -55,6 +66,7 @@ const CreateProduct: React.FC = () => {
       formData.append("pro_qty", data.pro_qty);
       formData.append("pro_price", data.pro_price);
       formData.append("cate_id", data.cate_id);
+      formData.append("brand_id", data.brand_id);
       formData.append("image", data.image);
 
       if (isEdit && id) {
@@ -134,6 +146,19 @@ const CreateProduct: React.FC = () => {
                 options={categoryProduct.map((item) => ({
                   value: item.cate_id,
                   label: item.cate_name,
+                }))}
+              />
+            </Form.Item>
+          </div>
+          <div className="py-2">
+            <Form.Item label="Brand" name="brand_id">
+              <Select
+                defaultValue="select"
+                style={{ width: 120 }}
+                onChange={() => {}}
+                options={brandProduct.map((item) => ({
+                  value: item.brand_id,
+                  label: item.brand_name,
                 }))}
               />
             </Form.Item>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CarouselComponent from "./component/Carousel";
-import { Card } from "antd";
+import { Card, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import product from "../../../api/product";
 import { IProductItem } from "../../../types/admin/product/product";
@@ -10,11 +10,14 @@ const ProductClientPage: React.FC = () => {
   const navigate = useNavigate();
   const { Meta } = Card;
   const [products, setProduct] = useState<IProductItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const res = await product.getProduct();
       setProduct(res.data);
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -34,69 +37,82 @@ const ProductClientPage: React.FC = () => {
 
       {/* Products grid */}
       <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-        {products.map((product) => (
-          <div key={product.pro_id} className="flex justify-center">
-            <Card
-              hoverable
-              style={{ width: "100%" }}
-              cover={
-                <img
-                  crossOrigin="anonymous"
-                  onClick={() => navigate(`/products/${product.pro_id}`)}
-                  src={
-                    product.pro_image
-                      ? `${BASE_URL}${product.pro_image}`
-                      : "/src/assets/shoes.jpeg"
-                  }
-                  alt={product.pro_name}
-                  className="w-full h-48 object-cover cursor-pointer"
-                />
-              }
-            >
-              <Meta
-                title={<p className="truncate">{product.pro_name}</p>}
-                description={
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                      <p className="truncate">{product.pro_detail}</p>
-                      <p className="text-green-600 font-semibold">
-                        {new Intl.NumberFormat("de-DE", {
-                          style: "currency",
-                          currency: "LAK",
-                        }).format(product.pro_price)}
-                      </p>
-                    </div>
-                    <div className="flex justify-end">
-                      <div
-                        className="bg-gray-300 rounded-md flex items-center gap-2 py-1 px-3 cursor-pointer hover:bg-gray-400 transition"
-                        onClick={() => {
-                          const cart = JSON.parse(
-                            localStorage.getItem("cart") || "[]"
-                          );
-
-                          const isAlreadyInCart = cart.some(
-                            (item: IProductItem) =>
-                              item.pro_id === product.pro_id
-                          );
-
-                          if (!isAlreadyInCart) {
-                            cart.push(product);
-                            localStorage.setItem("cart", JSON.stringify(cart));
-                          }
-
-                          navigate("/cart");
-                        }}
-                      >
-                        <ShoppingCartOutlined />
-                        <span>Add to cart</span>
-                      </div>
-                    </div>
-                  </div>
-                }
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                active
+                avatar
+                paragraph={{ rows: 3 }}
+                className="w-full"
               />
-            </Card>
-          </div>
-        ))}
+            ))
+          : products.map((product) => (
+              <div key={product.pro_id} className="flex justify-center">
+                <Card
+                  hoverable
+                  style={{ width: "100%" }}
+                  cover={
+                    <img
+                      crossOrigin="anonymous"
+                      onClick={() => navigate(`/products/${product.pro_id}`)}
+                      src={
+                        product.pro_image
+                          ? `${BASE_URL}${product.pro_image}`
+                          : "/src/assets/shoes.jpeg"
+                      }
+                      alt={product.pro_name}
+                      className="w-full h-48 object-cover cursor-pointer"
+                    />
+                  }
+                >
+                  <Meta
+                    title={<p className="truncate">{product.pro_name}</p>}
+                    description={
+                      <div className="flex flex-col gap-2">
+                        <div className="flex justify-between items-center">
+                          <p className="truncate">{product.pro_detail}</p>
+                          <p className="text-green-600 font-semibold">
+                            {new Intl.NumberFormat("de-DE", {
+                              style: "currency",
+                              currency: "LAK",
+                            }).format(product.pro_price)}
+                          </p>
+                        </div>
+                        <div className="flex justify-end">
+                          <div
+                            className="bg-gray-300 rounded-md flex items-center gap-2 py-1 px-3 cursor-pointer hover:bg-gray-400 transition"
+                            onClick={() => {
+                              const cart = JSON.parse(
+                                localStorage.getItem("cart") || "[]"
+                              );
+
+                              const isAlreadyInCart = cart.some(
+                                (item: IProductItem) =>
+                                  item.pro_id === product.pro_id
+                              );
+
+                              if (!isAlreadyInCart) {
+                                cart.push(product);
+                                localStorage.setItem(
+                                  "cart",
+                                  JSON.stringify(cart)
+                                );
+                              }
+
+                              navigate("/cart");
+                            }}
+                          >
+                            <ShoppingCartOutlined />
+                            <span>Add to cart</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  />
+                </Card>
+              </div>
+            ))}
       </div>
     </div>
   );
