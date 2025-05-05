@@ -14,7 +14,7 @@ import ProductPage from "../page/admin/proudct/product";
 import ProductDetail from "../page/client/home/component/ProductDetail";
 import CartPage from "../page/client/cart/Cart";
 import BrandPage from "../page/admin/brand/BrandPage";
-import CreateBrand from "../page/admin/brand/component /CreateBrand";
+import CreateBrand from "../page/admin/brand/component/CreateBrand";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
