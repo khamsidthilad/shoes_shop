@@ -13,16 +13,24 @@ const SupplierPage: React.FC = () => {
     null
   );
   const [isOpenModal, setIsSelectModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const handleEdit = (id: string) => {
     navigate(`/product/edit/supplier/${id}`);
   };
 
   const fectData = async () => {
-    const res = await supplier.getAllSupplier();
-    setGetAllProduct(res.data);
-    setSelectedProductId(res.data.id);
-    return res;
+    try {
+      setIsLoading(true);
+      const res = await supplier.getAllSupplier();
+      setGetAllProduct(res.data);
+      setSelectedProductId(res.data.id);
+      return res;
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
   useEffect(() => {
     fectData();
@@ -46,6 +54,7 @@ const SupplierPage: React.FC = () => {
   return (
     <div className="">
       <Table
+        loading={isLoading}
         className="bg-white rounded-lg"
         title={() => {
           return (

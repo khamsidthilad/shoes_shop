@@ -13,6 +13,8 @@ import CreateSupplier from "../page/admin/proudct/component/CreateSupplier";
 import ProductPage from "../page/admin/proudct/product";
 import ProductDetail from "../page/client/home/component/ProductDetail";
 import CartPage from "../page/client/cart/Cart";
+import BrandPage from "../page/admin/brand/BrandPage";
+import CreateBrand from "../page/admin/brand/component /CreateBrand";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
@@ -73,6 +75,21 @@ export const ROUTES: IRoute[] = [
     path: "/order/status",
     title: "Admin supplier",
     component: <Status />,
+  },
+  {
+    path: "/product/brand",
+    title: "Admin Brand",
+    component: <BrandPage />,
+  },
+  {
+    path: "/product/create/brand",
+    title: "Admin Brand",
+    component: <CreateBrand />,
+  },
+  {
+    path: "/product/update/brand/:id",
+    title: "Admin Brand",
+    component: <CreateBrand />,
   },
 ];
 

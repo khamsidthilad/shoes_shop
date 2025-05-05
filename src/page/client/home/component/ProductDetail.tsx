@@ -18,6 +18,7 @@ const ProductDetail: React.FC = () => {
     };
     fectData();
   }, []);
+  const BASE_URL = "http://localhost:3003";
 
   return (
     <div className="flex justify-center py-10">
@@ -25,7 +26,12 @@ const ProductDetail: React.FC = () => {
         {/* Image section (40%) */}
         <div className="basis-2/5">
           <img
-            src={productDetail?.pro_image ?? "/src/assets/shoes.jpeg"}
+            crossOrigin="anonymous"
+            src={
+              `${BASE_URL}${productDetail?.pro_image}` ?
+              `${BASE_URL}${productDetail?.pro_image}` :
+              "/src/assets/shoes.jpeg"
+            }
             alt=""
             className="w-full object-cover"
           />
@@ -45,7 +51,6 @@ const ProductDetail: React.FC = () => {
           <div className="py-4">
             <Button
               onClick={() => {
-                
                 if (!productDetail) return;
 
                 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -55,11 +60,11 @@ const ProductDetail: React.FC = () => {
                 );
 
                 if (!isAlreadyInCart) {
-                  cart.push(productDetail); 
-                  localStorage.setItem("cart", JSON.stringify(cart)); 
+                  cart.push(productDetail);
+                  localStorage.setItem("cart", JSON.stringify(cart));
                 }
 
-                navigate("/cart"); 
+                navigate("/cart");
               }}
               disabled={!productDetail}
             >

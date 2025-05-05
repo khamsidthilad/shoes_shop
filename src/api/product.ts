@@ -13,7 +13,7 @@ export default {
     api.put(`/products/${id}`, formdata, config);
   },
 
-  getProductByCategory: (id: string) => api.get(`/products/category/${id}`),
+  getProductByCategory: (id: number) => api.get(`/products/category/${id}`),
   getProductById: (id: string) => api.get(`/products/${id}`),
   getSearch: (id: string) => api.get(`/products/search/${id}`),
 };

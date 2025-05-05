@@ -1,8 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { switchLanguage } from "../../utils/SwitchLang.util";
 import { AppImage } from "../../config/constant";
-import { Button, Menu } from "antd";
+import { Avatar, Button, Dropdown, Menu, MenuProps, Space } from "antd";
 import { useNavigate } from "react-router-dom";
+import { DownOutlined } from "@ant-design/icons";
+import order from "../../api/order";
+import { useEffect, useState } from "react";
 type MenuItem = {
   key: string;
   label: string;
@@ -16,6 +19,13 @@ const Header = (props: {
 }) => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "My Account",
+    },
+  ];
 
   return (
     <header className="sticky top-0 z-999 flex w-full drop-shadow-1 bg-white shadow-md">
@@ -67,7 +77,7 @@ const Header = (props: {
                 </Button>
               </div>
             )}
-            <div onClick={switchLanguage} className="cursor-pointer">
+            <div onClick={switchLanguage} className="cursor-pointer w-full">
               {i18n.language === "la" ? (
                 <img
                   src={AppImage.flagEnglish}
@@ -83,6 +93,16 @@ const Header = (props: {
                   title="ພາສາລາວ"
                 />
               )}
+            </div>
+            <div>
+              <Dropdown menu={{ items }}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
             </div>
           </div>
         </div>

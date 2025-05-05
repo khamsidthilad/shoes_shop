@@ -12,12 +12,14 @@ const OrderPage: React.FC = () => {
   const [form] = Form.useForm();
   const [getAllProduct, setGetAllProduct] = useState<IGetAllOrder[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(Boolean);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectId, setSelectId] = useState<string>("");
+
   const navigate = useNavigate();
 
   const fectData = async () => {
     try {
+      setIsLoading(true);
       const response = await order.getPaymentStatus();
       setGetAllProduct(response.data);
       if (response.data) {
@@ -27,6 +29,8 @@ const OrderPage: React.FC = () => {
       return response;
     } catch (error) {
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,13 +59,14 @@ const OrderPage: React.FC = () => {
   }, []);
 
   const columns = getOrderHeader((record: IGetAllOrder) => {
-    setSelectId(record.sell_id);
+    setSelectId(record.sell_id.toString());
     setIsModalOpen(true);
   });
 
   return (
     <div>
       <Table
+        loading={isLoading}
         className="bg-white rounded-lg"
         title={() => {
           return (

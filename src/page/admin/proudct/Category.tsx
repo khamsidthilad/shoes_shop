@@ -12,14 +12,18 @@ const CategoryPage: React.FC = () => {
     null
   );
   const [isOpenModal, setIsSelectModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fectData = async () => {
     try {
+      setIsLoading(true);
       const res = await category.getCategory();
       setGetAllCategory(res.data);
       return res;
     } catch (error) {
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -37,7 +41,7 @@ const CategoryPage: React.FC = () => {
     }
   };
 
-  const handleEdit = (id:number) => {
+  const handleEdit = (id: number) => {
     navigate(`/product/edit/category/${id}`);
   };
 
@@ -50,6 +54,7 @@ const CategoryPage: React.FC = () => {
   return (
     <div className="">
       <Table
+        loading={isLoading}
         className="bg-white rounded-lg"
         title={() => {
           return (

@@ -47,7 +47,7 @@ export const getCategoryHeader = (
 ];
 
 export const getAllProductHeader = (
-  onEdit: (id:number) => void,
+  onEdit: (id: number) => void,
   onDelete: (record: IProductItem) => void
 ): ColumnsType<IProductItem> => [
   {
@@ -59,15 +59,20 @@ export const getAllProductHeader = (
     title: "Image",
     key: "pro_image",
     render: (_: any, record: any) => {
-      const url = record.pro_image;
+      const BASE_URL = "http://localhost:3003";
       return (
         <Image
-          src={url ? url : "/src/assets/country/english.jpg"}
+          className="z-99999"
+          crossOrigin="anonymous"
+          src={
+            record.pro_image
+              ? `${BASE_URL}${record.pro_image}`
+              : "/src/assets/country/english.jpg"
+          }
           alt="product"
           width={40}
           height={40}
           style={{ objectFit: "cover" }}
-          preview={false}
         />
       );
     },
@@ -82,6 +87,7 @@ export const getAllProductHeader = (
     title: "Detail",
     dataIndex: "pro_detail",
     key: "pro_detail",
+    ellipsis: true,
   },
   {
     title: "Price",

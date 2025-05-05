@@ -32,3 +32,22 @@ export interface ICreateProduct {
   image: string;
   cate_id: ICategoryItem;
 }
+
+export interface IGetListBrand {
+  brand_id: number;
+  brand_name: string;
+  brand_description: string;
+  brand_logo: string;
+  brand_website: string;
+  brand_status: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ICreateBrand {
+  brand_name: string;
+  brand_description: string;
+  logo: string;
+  brand_website: string;
+  brand_status: string;
+}
