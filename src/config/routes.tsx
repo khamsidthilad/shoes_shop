@@ -15,6 +15,7 @@ import ProductDetail from "../page/client/home/component/ProductDetail";
 import CartPage from "../page/client/cart/Cart";
 import BrandPage from "../page/admin/brand/BrandPage";
 import CreateBrand from "../page/admin/brand/component/CreateBrand";
+import Products from "../page/client/products/Products";
 export const ROUTES: IRoute[] = [
   {
     path: "/Dashboard",
@@ -103,7 +104,7 @@ export const AUTH_ROUTES: IRoute[] = [
   {
     path: "/product",
     title: "product",
-    component: <ProductClientPage />,
+    component: <Products />,
     showInMenu: true,
   },
   {

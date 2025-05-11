@@ -1,6 +1,22 @@
 import { Button, Form, Input } from "antd";
+import { IRegister } from "../../types/admin/auth";
+import auth from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const onSubmit = async (data: IRegister) =>{
+      try {
+        const response: any = await auth.register(data)
+        if(response) {
+          navigate("/login");
+        }else{
+          console.log("Resgiter failed. Please check your credentials.");
+        }
+      } catch (error) {
+        console.log('Register erorr',error)
+      }
+  }
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-gray-200 px-4">
       <div className="bg-white px-6  py-10 w-full max-w-md rounded shadow-md">
@@ -10,7 +26,7 @@ const RegisterPage: React.FC = () => {
 
         <Form
           initialValues={{ remember: true }}
-          onFinish={() => {}}
+          onFinish={onSubmit}
           onFinishFailed={() => {}}
           autoComplete="off"
           layout="vertical"
@@ -67,7 +83,7 @@ const RegisterPage: React.FC = () => {
 
           <Form.Item>
             <Button type="primary" className="w-full" htmlType="submit">
-              Login
+              Register
             </Button>
           </Form.Item>
         </Form>
