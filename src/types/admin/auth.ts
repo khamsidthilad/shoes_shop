@@ -47,7 +47,7 @@ export interface IUser {
   name: string;
   sname: string;
   Sex: string;
-  Date_of_Birth: string; 
+  Date_of_Birth: string;
   username: string;
   status: string;
   tel: string;
@@ -57,4 +57,9 @@ export interface IUser {
   role: string;
   customerId: number;
   customerDetails: CustomerDetails;
+}
+
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
 }
