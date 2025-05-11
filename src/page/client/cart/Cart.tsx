@@ -28,7 +28,7 @@ const CartPage: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [orderId, setOrderId] = useState<number>();
-  const [orderDetail, setOrderDetail] = useState<string>("");
+  const [orderDetail, setOrderDetail] = useState<any>("");
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -46,7 +46,7 @@ const CartPage: React.FC = () => {
     const getCustomer = async () => {
       try {
         const getCustomer = await auth.getMe();
-        setCustomerId(getCustomer.data.customerId);
+        setCustomerId(getCustomer?.data?.customerId);
       } catch (error) {
         navigate("/login");
         throw error;
@@ -54,6 +54,8 @@ const CartPage: React.FC = () => {
     };
     getCustomer();
   });
+
+  console.log("*************** customer id", customerId);
 
   const handleChange = ({
     fileList: newFileList,
@@ -157,7 +159,7 @@ const CartPage: React.FC = () => {
         0
       );
 
-      const orderData = {
+      const orderData: any = {
         customerId: customerId,
         items: orderItems,
         totalPrice,
