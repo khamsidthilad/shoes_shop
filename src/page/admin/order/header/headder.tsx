@@ -1,4 +1,4 @@
-import { Tag } from "antd";
+import { Image, Tag } from "antd";
 import { IGetAllOrder } from "../../../../types/admin/history/history";
 import { ColumnsType } from "antd/es/table";
 
@@ -15,11 +15,14 @@ export const getOrderHeader = (
     dataIndex: "payment_image",
     key: "payment_image",
     render: (_: any, record: IGetAllOrder) => {
+      const BASE_URL = "http://localhost:3003";
       return (
-        <img
+        <Image
+        className="z-99999"
+          crossOrigin="anonymous"
           src={
             record.payment_image
-              ? record.payment_image
+              ? `${BASE_URL}${record.payment_image}`
               : "/src/assets/country/english.jpg"
           }
           alt="product"

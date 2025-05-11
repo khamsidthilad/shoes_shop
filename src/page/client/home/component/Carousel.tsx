@@ -33,3 +33,4 @@ const CarouselComponent: React.FC<ICarouselComponent> = ({
 };
 
 export default CarouselComponent;
+

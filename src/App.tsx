@@ -4,18 +4,22 @@ import {
   Routes,
   useLocation,
   useNavigate,
+
 } from "react-router-dom";
 import "./App.css";
 import { useTranslation } from "react-i18next";
 import { IRoute } from "./types/route.type";
 import { AUTH_ROUTES, ROUTES } from "./config/routes";
 import DefaultLayout from "./layouts/DefaultLayout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TOKEN_KEY } from "./lib/interceptor";
 import { IPayloadAuth } from "./types/admin/auth";
 import ClientLayout from "./layouts/ClientLayout";
 
+
+
 function App() {
+
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const navigate = useNavigate();

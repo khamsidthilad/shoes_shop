@@ -1,6 +1,6 @@
 import { Line } from "@ant-design/plots";
 import { useEffect, useState } from "react";
-import { Card, Col, Row, Table } from "antd";
+import { Card, Col, Row, Spin, Table } from "antd";
 import dashboard from "../../../api/dashboard";
 import { getCategoryHeader, getInventoryHeader } from "./column/column";
 import order from "../../../api/order";
@@ -9,6 +9,7 @@ import { IDashBoard } from "../../../types/admin/dashboard";
 const Dashboard: React.FC = () => {
   const [dashbaordOrder, setDashboardOrder] = useState<IDashBoard[]>([]);
   const [dataChart, setDatachart] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const fetchDashboard = async () => {
     try {
       const response = await dashboard.getDashboard();
@@ -36,8 +37,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  console.log("###############", dashbaordOrder);
-
   const fectBestSeller = async () => {
     try {
       const response = await order.bestSeller();
@@ -48,10 +47,14 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchDashboard();
-    fectBestSeller();
-    fetchChart();
+    const fetchData = async () => {
+      setLoading(true);
+      await Promise.all([fetchDashboard(), fetchChart(), fectBestSeller()]);
+      setLoading(false);
+    };
+    fetchData();
   }, []);
+
   const config = {
     data: dataChart,
     xField: "status",
@@ -79,6 +82,20 @@ const Dashboard: React.FC = () => {
 
   const column = getCategoryHeader();
   const inventory = getInventoryHeader();
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className=" bg-white">

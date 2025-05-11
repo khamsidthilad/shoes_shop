@@ -8,17 +8,21 @@ import { IGetAllOrder } from "../../../types/admin/history/history";
 const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
   const [getAllOrder, setGetAllOrder] = useState<IGetAllOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = () => {};
   const handleDelete = () => {};
 
   const fectData = async () => {
     try {
+      setIsLoading(true)
       const res = await order.getAllOrder();
       setGetAllOrder(res.data);
       return res;
     } catch (error) {
       throw error;
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -30,6 +34,7 @@ const HistoryPage: React.FC = () => {
   return (
     <div>
       <Table
+      loading={isLoading}
         className="bg-white rounded-lg"
         title={() => {
           return (
@@ -41,7 +46,6 @@ const HistoryPage: React.FC = () => {
         columns={columns}
         dataSource={getAllOrder}
         pagination={{ pageSize: 10 }}
-        scroll={{ y: 55 * 5 }}
       />
     </div>
   );

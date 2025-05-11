@@ -5,9 +5,10 @@ export interface IRoute {
   title: string;
   permissions?: Array<string>;
   component: ReactElement;
+  showInMenu?: boolean;
 }
 
-export interface IMenu  {
+export interface IMenu {
   name: string;
   path: string;
   icon: any;

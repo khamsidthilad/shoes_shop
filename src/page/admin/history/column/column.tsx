@@ -1,6 +1,6 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { IGetAllOrder } from "../../../../types/admin/history/history";
 import { ColumnsType } from "antd/es/table";
+import { Image } from "antd";
 
 export const getHistoryHeader = (
   onEdit: (record: IGetAllOrder) => void,
@@ -15,11 +15,12 @@ export const getHistoryHeader = (
     title: "Image",
     dataIndex: "payment_image",
     key: "payment_image",
-    render: (url: string) => {
-      if (!url) return null;
+    render: (_: any, record: any) => {
+      const BASE_URL = "http://localhost:3003";
       return (
-        <img
-          src={`${url}`}
+        <Image
+          crossOrigin="anonymous"
+          src={`${BASE_URL}${record.payment_image}`}
           alt="payment"
           width={40}
           height={40}
