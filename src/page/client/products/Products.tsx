@@ -1,6 +1,5 @@
 import React from "react";
 import CarouselComponent from "../home/component/Carousel";
-// import SearchProduct from "./component/SearchProduct";
 import { Card, Col, Input, Row, Select, Spin } from "antd";
 import product from "../../../api/product";
 import { useEffect, useState } from "react";
@@ -15,16 +14,14 @@ import {
 
 const Products: React.FC = () => {
   const navigate = useNavigate();
-  const [getBrand, setGetBrand] = useState<IGetListBrand[]>([]);
   const [products, setProducts] = useState<IProductItem[]>([]);
+  const [allProducts, setAllProducts] = useState<IProductItem[]>([]); // Store all products for filtering
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [filteredData, setFilteredData] = useState<IGetListBrand[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [loading, setLoading] = useState(false);
   const BASE_URL = "http://localhost:3003";
 
-  // Fetch all categories on component mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -50,9 +47,11 @@ const Products: React.FC = () => {
       try {
         const res = await product.getProductByCategory(selectedCategoryId);
         setProducts(res.data);
+        setAllProducts(res.data); 
       } catch (error) {
         console.error("Error fetching products:", error);
         setProducts([]);
+        setAllProducts([]);
       } finally {
         setLoading(false);
       }
@@ -61,35 +60,32 @@ const Products: React.FC = () => {
     fetchProductsByCategory();
   }, [selectedCategoryId]);
 
-  console.log("category", categories);
-
   const handleCategoryChange = (value: React.SetStateAction<null>) => {
     setSelectedCategoryId(value);
+    setSearchText(""); 
   };
 
-  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchText(value);
 
     if (!value.trim()) {
-      setProducts([]); // Clear results if input is empty
+      setProducts(allProducts);
       return;
     }
 
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/products/search?term=${encodeURIComponent(value)}`);
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
+    const filteredProducts = allProducts.filter(
+      (product) =>
+        product.pro_name.toLowerCase().includes(value.toLowerCase()) ||
+        (product.pro_detail &&
+          product.pro_detail.toLowerCase().includes(value.toLowerCase()))
+    );
+
+    setProducts(filteredProducts);
   };
- 
+
   return (
-    <div className=" bg-gray-200">
+    <div className="bg-gray-200">
       <CarouselComponent
         images={[
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfsKcLtcDvagrqCxPXwH7LG9Nddg1K83l6tQ&s",
@@ -101,13 +97,13 @@ const Products: React.FC = () => {
 
       <div className="flex justify-between items-center">
         <div className="w-[40%] py-4 px-10">
-          
           <Input
             placeholder="Search brands"
             value={searchText}
             onChange={handleSearch}
             prefix={<SearchOutlined />}
             className="w-64"
+            allowClear
           />
         </div>
         <div className="w-1/ mt-2 px-10">
@@ -132,14 +128,16 @@ const Products: React.FC = () => {
         </div>
       )}
       {!loading && products.length === 0 && (
-        <div className="no-products">
-          <p>No products found in this category</p>
+        <div className="no-products text-center py-10">
+          <p>
+            No products found{" "}
+            {searchText ? "matching your search" : "in this category"}
+          </p>
         </div>
       )}
 
       {!loading && products.length > 0 && (
         <div className="products-grid p-10">
-          <h2>Products</h2>
           <Row gutter={[16, 16]}>
             {products.map((item) => (
               <Col xs={24} sm={12} md={8} lg={6} key={item.pro_id}>
@@ -167,13 +165,13 @@ const Products: React.FC = () => {
                       </div>
                     }
                   />
-                  <div className=" flex justify-end">
+                  <div className="flex justify-end">
                     <div
-                      className="bg-gray-300 rounded flex  items-center  w-fit cursor-pointer"
+                      className="bg-gray-300 rounded flex items-center w-fit cursor-pointer p-2 mt-2 hover:bg-gray-400"
                       onClick={() => navigate("/cart")}
                     >
                       <ShoppingCartOutlined />
-                      <p>Add to cart</p>
+                      <p className="ml-1 mb-0">Add to cart</p>
                     </div>
                   </div>
                 </Card>
